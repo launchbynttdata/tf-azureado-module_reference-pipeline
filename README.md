@@ -1,4 +1,4 @@
-# tf-azureado-module_ref-pipeline
+# tf-azureado-module_reference-pipeline
 
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![License: CC BY-NC-ND 4.0](https://img.shields.io/badge/License-CC_BY--NC--ND_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-nd/4.0/)
@@ -41,11 +41,11 @@ asdf install
 
 This applies to systems like Azure DevOps and CodeCommit.
 
-We need to clone the repo, rename it, and start a fresh git history to get rid of the `tf-module-skeleton` history. Below is a loose explanation of how to do this.
+We need to clone the repo, rename it, and start a fresh git history to get rid of the `lcaf-skeleton-terraform` history. Below is a loose explanation of how to do this.
 
 ``` shell
 git clone <this repo's URL>
-mv tf-module-skeleton tf-<whatever it is you're building>
+mv lcaf-skeleton-terraform tf-<whatever it is you're building>
 cd tf-<whatever it is you're building>
 rm -rf .git
 git init
@@ -76,7 +76,7 @@ TBD
 
 #### Overriding Make Behavior
 
-When run, `make` will look for a file called `.cafenv` in the repository root. This file if present will be included, and it can be used to override variables without altering the [Makefile](Makefile). A few examples of variables that can be substituted are commented out in [the file](.cafenv).
+When run, `make` will look for a file called `.lcafenv` in the repository root. This file if present will be included, and it can be used to override variables without altering the [Makefile](Makefile). A few examples of variables that can be substituted are commented out in [the file](.lcafenv).
 
 #### Module Configuration
 
@@ -111,9 +111,9 @@ When run, `make` will look for a file called `.cafenv` in the repository root. T
 
 - Modules are how Go manages dependencies
 - To initiate a new modules run the command: `go mod init [repo_url]`
-  - It is recommended to use the absolute repository url (e.g. github.com/nexient-llc/tf-module-skeleton)
+  - It is recommended to use the absolute repository url (e.g. github.com/launchbynttdata/lcaf-skeleton-terraform)
 - Relative path is highly discouraged in Go, use absolute path to import a package
-  - (e.g. `github.com/nexient-llc/tf-module-skeleton/[path_to_file]`)
+  - (e.g. `github.com/launchbynttdata/lcaf-skeleton-terraform/[path_to_file]`)
 - To update paths or versions run the command: `go get -t ./...`  go will update the dependencies accordingly
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
@@ -132,8 +132,8 @@ No providers.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_resource_names"></a> [resource\_names](#module\_resource\_names) | git::https://github.com/nexient-llc/tf-module-resource_name.git | 1.1.1 |
-| <a name="module_pipeline"></a> [pipeline](#module\_pipeline) | git::https://github.com/nexient-llc/tf-azureado-module_primitive-pipelines.git | 0.1.0 |
+| <a name="module_resource_names"></a> [resource\_names](#module\_resource\_names) | git::https://github.com/launchbynttdata/tf-launch-module_library-resource_name.git | 1.0.0 |
+| <a name="module_pipeline"></a> [pipeline](#module\_pipeline) | git::https://github.com/launchbynttdata/tf-azureado-module_primitive-pipelines.git | 1.0.0 |
 
 ## Resources
 
@@ -149,7 +149,7 @@ No resources.
 | <a name="input_environment_number"></a> [environment\_number](#input\_environment\_number) | The environment count for the respective environment. Defaults to 000. Increments in value of 1 | `string` | `"000"` | no |
 | <a name="input_resource_number"></a> [resource\_number](#input\_resource\_number) | The resource count for the respective resource. Defaults to 000. Increments in value of 1 | `string` | `"000"` | no |
 | <a name="input_region"></a> [region](#input\_region) | AWS Region in which the infra needs to be provisioned | `string` | `"eastus"` | no |
-| <a name="input_resource_names_map"></a> [resource\_names\_map](#input\_resource\_names\_map) | A map of key to resource\_name that will be used by tf-module-resource\_name to generate resource names | <pre>map(object(<br>    {<br>      name       = string<br>      max_length = optional(number, 60)<br>    }<br>  ))</pre> | <pre>{<br>  "pipeline": {<br>    "max_length": 60,<br>    "name": "pipe"<br>  }<br>}</pre> | no |
+| <a name="input_resource_names_map"></a> [resource\_names\_map](#input\_resource\_names\_map) | A map of key to resource\_name that will be used by tf-launch-module\_library-resource\_name to generate resource names | <pre>map(object(<br>    {<br>      name       = string<br>      max_length = optional(number, 60)<br>    }<br>  ))</pre> | <pre>{<br>  "pipeline": {<br>    "max_length": 60,<br>    "name": "pipe"<br>  }<br>}</pre> | no |
 | <a name="input_project_id"></a> [project\_id](#input\_project\_id) | (Required) The project ID or project name. | `string` | n/a | yes |
 | <a name="input_path"></a> [path](#input\_path) | The folder path of the build definition. | `string` | `null` | no |
 | <a name="input_agent_pool_name"></a> [agent\_pool\_name](#input\_agent\_pool\_name) | The agent pool that should execute the build. Defaults to Azure Pipelines. | `string` | `"Azure Pipelines"` | no |

@@ -1,3 +1,3 @@
-module github.com/nexient-llc/tf-azureado-module_ref-pipeline
+module github.com/launchbynttdata/tf-azureado-module_reference-pipeline
 
 go 1.21
