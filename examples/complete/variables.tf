@@ -10,71 +10,46 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-variable "logical_product_family" {
-  type        = string
+variable "product_family" {
   description = <<EOF
     (Required) Name of the product family for which the resource is created.
     Example: org_name, department_name.
   EOF
-  nullable    = false
-
-  validation {
-    condition     = can(regex("^[_\\-A-Za-z0-9]+$", var.logical_product_family))
-    error_message = "The variable must contain letters, numbers, -, _, and .."
-  }
+  type        = string
+  default     = "dso"
 }
 
-variable "logical_product_service" {
-  type        = string
+variable "product_service" {
   description = <<EOF
     (Required) Name of the product service for which the resource is created.
     For example, backend, frontend, middleware etc.
   EOF
-  nullable    = false
-
-  validation {
-    condition     = can(regex("^[_\\-A-Za-z0-9]+$", var.logical_product_service))
-    error_message = "The variable must contain letters, numbers, -, _, and .."
-  }
+  type        = string
+  default     = "azdo"
 }
 
-variable "class_env" {
+variable "environment" {
+  description = "Environment in which the resource should be provisioned like dev, qa, prod etc."
   type        = string
-  description = "Environment where resource is going to be deployed. For example. dev, qa, uat"
   default     = "dev"
-
-  validation {
-    condition     = length(regexall("\\b \\b", coalesce(var.class_env, "dev"))) == 0
-    error_message = "Spaces between the words are not allowed."
-  }
 }
 
-variable "instance_env" {
-  type        = number
-  description = "Number that represents the instance of the environment."
-  default     = "000"
-
-  validation {
-    condition     = coalesce(var.instance_env, 0) >= 0 && coalesce(var.instance_env, 0) <= 100
-    error_message = "Instance number should be between 0 to 999."
-  }
-}
-
-variable "instance_resource" {
-  type        = number
-  description = "Number that represents the instance of the resource."
-  default     = "000"
-
-  validation {
-    condition     = coalesce(var.instance_resource, 0) >= 0 && coalesce(var.instance_resource, 0) <= 100
-    error_message = "Instance number should be between 0 to 100."
-  }
-}
-
-variable "location" {
+variable "environment_number" {
+  description = "The environment count for the respective environment. Defaults to 000. Increments in value of 1"
   type        = string
-  description = "The location of the associated resources"
-  nullable    = false
+  default     = "000"
+}
+
+variable "resource_number" {
+  description = "The resource count for the respective resource. Defaults to 000. Increments in value of 1"
+  type        = string
+  default     = "000"
+}
+
+variable "region" {
+  description = "AWS Region in which the infra needs to be provisioned"
+  type        = string
+  default     = "eastus"
 }
 
 variable "project_id" {
