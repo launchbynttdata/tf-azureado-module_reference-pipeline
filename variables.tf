@@ -10,46 +10,71 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-variable "product_family" {
+variable "logical_product_family" {
+  type        = string
   description = <<EOF
     (Required) Name of the product family for which the resource is created.
     Example: org_name, department_name.
   EOF
-  type        = string
-  default     = "dso"
+  nullable    = false
+
+  validation {
+    condition     = can(regex("^[_\\-A-Za-z0-9]+$", var.logical_product_family))
+    error_message = "The variable must contain letters, numbers, -, _, and .."
+  }
 }
 
-variable "product_service" {
+variable "logical_product_service" {
+  type        = string
   description = <<EOF
     (Required) Name of the product service for which the resource is created.
     For example, backend, frontend, middleware etc.
   EOF
-  type        = string
-  default     = "kube"
+  nullable    = false
+
+  validation {
+    condition     = can(regex("^[_\\-A-Za-z0-9]+$", var.logical_product_service))
+    error_message = "The variable must contain letters, numbers, -, _, and .."
+  }
 }
 
-variable "environment" {
-  description = "Environment in which the resource should be provisioned like dev, qa, prod etc."
+variable "class_env" {
   type        = string
+  description = "Environment where resource is going to be deployed. For example. dev, qa, uat"
   default     = "dev"
+
+  validation {
+    condition     = length(regexall("\\b \\b", coalesce(var.class_env, "dev"))) == 0
+    error_message = "Spaces between the words are not allowed."
+  }
 }
 
-variable "environment_number" {
-  description = "The environment count for the respective environment. Defaults to 000. Increments in value of 1"
-  type        = string
+variable "instance_env" {
+  type        = number
+  description = "Number that represents the instance of the environment."
   default     = "000"
+
+  validation {
+    condition     = coalesce(var.instance_env, 0) >= 0 && coalesce(var.instance_env, 0) <= 100
+    error_message = "Instance number should be between 0 to 999."
+  }
 }
 
-variable "resource_number" {
-  description = "The resource count for the respective resource. Defaults to 000. Increments in value of 1"
-  type        = string
+variable "instance_resource" {
+  type        = number
+  description = "Number that represents the instance of the resource."
   default     = "000"
+
+  validation {
+    condition     = coalesce(var.instance_resource, 0) >= 0 && coalesce(var.instance_resource, 0) <= 100
+    error_message = "Instance number should be between 0 to 100."
+  }
 }
 
-variable "region" {
-  description = "AWS Region in which the infra needs to be provisioned"
+variable "location" {
   type        = string
-  default     = "eastus"
+  description = "The location of the associated resources"
+  nullable    = false
 }
 
 variable "resource_names_map" {
@@ -62,7 +87,7 @@ variable "resource_names_map" {
   ))
   default = {
     pipeline = {
-      name       = "pipe"
+      name       = "pipeline"
       max_length = 60
     }
   }
@@ -130,6 +155,7 @@ variable "pull_request_trigger" {
       }))
     }))
   })
+  nullable = true
   default = {
     use_yaml = false
     forks = {
@@ -172,6 +198,7 @@ variable "schedules" {
       exclude = optional(list(string))
     }))
   })
+  default = null
 }
 
 variable "repository" {
@@ -180,7 +207,7 @@ variable "repository" {
     branch_name           = string
     repo_id               = string
     repo_type             = string
-    service_connection_id = string
+    service_connection_id = optional(string)
     yml_path              = optional(string)
     github_enterprise_url = optional(string)
     report_build_status   = optional(bool)

@@ -10,7 +10,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-project_id = "<PROJECT_ID>"
+project_id = "TMP-Cloud-Infrastructure"
+
+logical_product_family  = "dso"
+logical_product_service = "demo"
+class_env               = "dev"
+instance_env            = "000"
+instance_resource       = "000"
+location                = "eastus"
 
 repository = {
   repo_type             = "GitHub"
