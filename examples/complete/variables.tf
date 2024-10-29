@@ -47,7 +47,7 @@ variable "resource_number" {
 }
 
 variable "region" {
-  description = "AWS Region in which the infra needs to be provisioned"
+  description = "Azure location of the associated resources"
   type        = string
   default     = "eastus"
 }
