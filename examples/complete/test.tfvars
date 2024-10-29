@@ -10,8 +10,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-project_id = "<PROJECT_ID>"
-
 repository = {
   repo_type             = "GitHub"
   repo_id               = "launchbynttdata/demo-azure-resource-group"

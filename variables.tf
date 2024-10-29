@@ -25,7 +25,7 @@ variable "product_service" {
     For example, backend, frontend, middleware etc.
   EOF
   type        = string
-  default     = "kube"
+  default     = "azdo"
 }
 
 variable "environment" {
@@ -47,9 +47,15 @@ variable "resource_number" {
 }
 
 variable "region" {
-  description = "AWS Region in which the infra needs to be provisioned"
+  description = "Azure location of the associated resources"
   type        = string
   default     = "eastus"
+}
+
+variable "use_azure_region_abbr" {
+  description = "Whether to use Azure region abbreviation for azure region"
+  type        = bool
+  default     = true
 }
 
 variable "resource_names_map" {
@@ -62,7 +68,7 @@ variable "resource_names_map" {
   ))
   default = {
     pipeline = {
-      name       = "pipe"
+      name       = "pipeline"
       max_length = 60
     }
   }
@@ -130,6 +136,7 @@ variable "pull_request_trigger" {
       }))
     }))
   })
+  nullable = true
   default = {
     use_yaml = false
     forks = {
@@ -172,6 +179,7 @@ variable "schedules" {
       exclude = optional(list(string))
     }))
   })
+  default = null
 }
 
 variable "repository" {
@@ -180,7 +188,7 @@ variable "repository" {
     branch_name           = string
     repo_id               = string
     repo_type             = string
-    service_connection_id = string
+    service_connection_id = optional(string)
     yml_path              = optional(string)
     github_enterprise_url = optional(string)
     report_build_status   = optional(bool)

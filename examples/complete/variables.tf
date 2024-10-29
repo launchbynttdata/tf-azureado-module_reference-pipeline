@@ -10,6 +10,48 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+variable "product_family" {
+  description = <<EOF
+    (Required) Name of the product family for which the resource is created.
+    Example: org_name, department_name.
+  EOF
+  type        = string
+  default     = "dso"
+}
+
+variable "product_service" {
+  description = <<EOF
+    (Required) Name of the product service for which the resource is created.
+    For example, backend, frontend, middleware etc.
+  EOF
+  type        = string
+  default     = "azdo"
+}
+
+variable "environment" {
+  description = "Environment in which the resource should be provisioned like dev, qa, prod etc."
+  type        = string
+  default     = "dev"
+}
+
+variable "environment_number" {
+  description = "The environment count for the respective environment. Defaults to 000. Increments in value of 1"
+  type        = string
+  default     = "000"
+}
+
+variable "resource_number" {
+  description = "The resource count for the respective resource. Defaults to 000. Increments in value of 1"
+  type        = string
+  default     = "000"
+}
+
+variable "region" {
+  description = "Azure location of the associated resources"
+  type        = string
+  default     = "eastus"
+}
+
 variable "project_id" {
   description = "(Required) The project ID or project name."
   type        = string
@@ -21,7 +63,7 @@ variable "repository" {
     branch_name           = string
     repo_id               = string
     repo_type             = string
-    service_connection_id = string
+    service_connection_id = optional(string)
     yml_path              = optional(string)
     github_enterprise_url = optional(string)
     report_build_status   = optional(bool)
@@ -41,4 +83,36 @@ variable "schedules" {
       exclude = optional(list(string))
     }))
   })
+  default = null
+}
+
+variable "pull_request_trigger" {
+  description = "Pull Request Integration trigger."
+  type = object({
+    use_yaml       = bool
+    initial_branch = optional(string)
+    forks = object({
+      enabled       = bool
+      share_secrets = bool
+    })
+    override = optional(object({
+      auto_cancel = bool
+      branch_filter = optional(object({
+        include = optional(list(string))
+        exclude = optional(list(string))
+      }))
+      path_filter = optional(object({
+        include = optional(list(string))
+        exclude = optional(list(string))
+      }))
+    }))
+  })
+  nullable = true
+  default = {
+    use_yaml = false
+    forks = {
+      enabled       = false
+      share_secrets = false
+    }
+  }
 }

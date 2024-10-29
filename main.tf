@@ -24,6 +24,7 @@ module "resource_names" {
   instance_env            = var.environment_number
   instance_resource       = var.resource_number
   maximum_length          = each.value.max_length
+  use_azure_region_abbr   = var.use_azure_region_abbr
 }
 
 module "pipeline" {

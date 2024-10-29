@@ -13,7 +13,16 @@
 module "pipeline" {
   source = "../.."
 
-  project_id = var.project_id
-  repository = var.repository
-  schedules  = var.schedules
+  product_family     = var.product_family
+  product_service    = var.product_service
+  environment        = var.environment
+  environment_number = var.environment_number
+  resource_number    = var.resource_number
+  region             = var.region
+
+
+  project_id           = var.project_id
+  repository           = var.repository
+  pull_request_trigger = var.pull_request_trigger
+  schedules            = var.schedules
 }
