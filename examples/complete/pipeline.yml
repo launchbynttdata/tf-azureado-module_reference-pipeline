@@ -10,7 +10,7 @@ stages:
         pool:
           vmImage: 'ubuntu-latest'
         steps:
-          - script: dotnet build
+          - script: echo "Building project..."
             displayName: 'Build Project'
 
   - stage: Test
@@ -22,7 +22,7 @@ stages:
         pool:
           vmImage: 'ubuntu-latest'
         steps:
-          - script: dotnet test
+          - script: echo "Running tests..."
             displayName: 'Run Tests'
 
   - stage: Deploy
