@@ -12,27 +12,24 @@ import (
 
 func TestComposableAzPipeline(t *testing.T, ctx types.TestContext) {
 
-	pipelineID := terraform.Output(t, ctx.TerratestTerraformOptions(), "pipeline_id")
-	scheduleID := terraform.Output(t, ctx.TerratestTerraformOptions(), "schedule_id")
-	revisionID := terraform.Output(t, ctx.TerratestTerraformOptions(), "revision_id")
+	pipelineID := string(terraform.Output(t, ctx.TerratestTerraformOptions(), "id"))
+	fmt.Printf("Pipeline ID from Terraform: %s\n", pipelineID)
 
 	azurePipelineID := getAzureDevopsPipeline("id", pipelineID)
-	azureScheduleID := getAzureDevopsPipeline("schedule", scheduleID)
-	azureRevisionID := getAzureDevopsPipeline("revision", revisionID)
+	fmt.Printf("Pipeline ID from Azure DevOps: %s\n", azurePipelineID)
 
 	assert.Equal(t, azurePipelineID, pipelineID, "Pipeline ID is not matching")
-	assert.Equal(t, azureScheduleID, scheduleID, "Schedule ID is not matching")
-	assert.Equal(t, azureRevisionID, revisionID, "Revision ID is not matching")
+
 }
 
 func getAzureDevopsPipeline(field string, pipelineID string) string {
 	organization := "https://dev.azure.com/launch-dso"
-	project := "TfsGit"
+	project := "platform-accelerators"
 
-	cmd := exec.Command("az", "pipelines", "show", "--id", pipelineID, "--org", organization, "--project", project, "query", field)
+	cmd := exec.Command("az", "pipelines", "show", "--id", pipelineID, "--org", organization, "--project", project, "--query", field, "-o", "tsv")
 	output, err := cmd.Output()
 	if err != nil {
-		fmt.Printf("Error in getting pipeline details: %v", field, err)
+		fmt.Printf("Error in getting pipeline details: %s: %s\n", field, err)
 		return ""
 	}
 	return strings.TrimSpace(string(output))

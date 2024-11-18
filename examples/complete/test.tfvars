@@ -13,10 +13,8 @@ project_id = "platform-accelerators"
 repository = {
   repo_type             = "GitHub"
   repo_id               = "launchbynttdata/tf-azureado-module_reference-pipeline"
-  github_enterprise_url = "https://github.company.com"
   branch_name           = "feature/terratest-for-az-pipeline"
   yml_path              = "examples/complete/pipeline.yml"
-  service_connection_id = "yogesh-az-test"
 }
 
 schedules = {
