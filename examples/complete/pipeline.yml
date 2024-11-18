@@ -1,5 +1,7 @@
 trigger:
-  - feature/terratest-for-az-pipeline
+  branches:
+    include:
+      - feature/terratest-for-az-pipeline
 
 stages:
   - stage: Build
