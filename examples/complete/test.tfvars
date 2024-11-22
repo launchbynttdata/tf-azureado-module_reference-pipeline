@@ -13,10 +13,11 @@ project_id = "platform-accelerators"
 repository = {
   repo_type             = "GitHub"
   repo_id               = "launchbynttdata/tf-azureado-module_reference-pipeline"
-  branch_name           = "feature/terratest-for-az-pipeline"
+  branch_name           = "main"
   yml_path              = "examples/complete/pipeline.yml"
+  service_connection_id = "<service_connection_name>"
 }
-
+pull_request_trigger = null
 schedules = {
   branch_filter = {
     include = ["main"]
