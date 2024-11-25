@@ -9,16 +9,15 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
+project_id = "platform-accelerators"
 repository = {
   repo_type             = "GitHub"
-  repo_id               = "launchbynttdata/demo-azure-resource-group"
-  github_enterprise_url = "https://github.company.com"
+  repo_id               = "launchbynttdata/tf-azureado-module_reference-pipeline"
   branch_name           = "main"
-  yml_path              = "internals/pipelines/pipeline.yml"
-  service_connection_id = "<SERVICE_CONNECTION_ID>"
+  yml_path              = "examples/complete/pipeline.yml"
+  service_connection_id = "<service_connection_name>"
 }
-
+pull_request_trigger = null
 schedules = {
   branch_filter = {
     include = ["main"]
